@@ -1,4 +1,4 @@
-package com.demonative.newarchitecture;
+package com.fazztrack.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.demonative.BuildConfig;
-import com.demonative.newarchitecture.components.MainComponentsRegistry;
-import com.demonative.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.fazztrack.BuildConfig;
+import com.fazztrack.newarchitecture.components.MainComponentsRegistry;
+import com.fazztrack.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

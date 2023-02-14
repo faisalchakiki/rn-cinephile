@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import NavUser from '../component/NavUser';
 import http from '../helper/http';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 export default function History() {
   const navigation = useNavigation();
@@ -28,11 +29,10 @@ export default function History() {
     const {data: result} = await http(tokens).get('/bookings/history');
     setDataHistory(result.data);
   };
-  const timeNow = String(new Date())
-    .slice(16)
-    .slice(0, 8)
-    .replace(':', '')
-    .replace(':', '');
+  let dateNow = moment().format('YYYYMMDD');
+  let timeNow = moment().format('HHmmSS');
+
+  console.log(dateNow);
   return (
     <NativeBaseProvider>
       <ScrollView>
@@ -72,13 +72,17 @@ export default function History() {
               </HStack>
             </View>
             {data?.map(item => {
-              console.log(item);
-              let timeSplit = item.timeBooking
+              const dateTicket = item.dateBooking
+                .replace('-', '')
+                .replace('-', '');
+              const timeTicket = item.timeBooking
                 .replace(':', '')
                 .replace(':', '');
-              let status = false;
-              if (timeSplit > timeNow) {
-                status = true;
+              let status = true;
+              if (dateNow > dateTicket) {
+                status = false;
+              } else if (timeNow > timeTicket) {
+                status = false;
               }
               return (
                 <Box
@@ -103,7 +107,7 @@ export default function History() {
                   {status === true ? (
                     <Button
                       onPress={() =>
-                        navigation.navigate('Ticket', {id: item.id})
+                        navigation.navigate('Ticket', {id: item.id, status})
                       }
                       backgroundColor="green.500">
                       Ticket active

@@ -1,5 +1,5 @@
 {
-  "name": "demonative",
+  "name": "cinephile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,12 +16,15 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.2",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "native-base": "^3.4.25",
     "react": "18.1.0",
+    "react-moment": "^1.1.3",
     "react-native": "0.70.6",
     "react-native-date-picker": "^4.2.6",
     "react-native-expo-viewport-units": "0.0.8",
     "react-native-image-picker": "^5.0.0",
+    "react-native-push-notification": "^8.1.1",
     "react-native-safe-area-context": "^3.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-svg": "^12.1.1",

@@ -123,14 +123,20 @@ const Profile = () => {
       setUploadAlert('File type is not supported!');
       return false;
     }
+    console.log(avatar);
     try {
       const formData = new FormData();
-      formData.append('picture', avatar.uri);
-      await http(token).patch(`/profile/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      formData.append('picture', avatar);
+      const {data: result} = await http(token).patch(
+        '/profile/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      });
+      );
+      console.log(result);
       if (profile.avatar) {
         setAvatar('');
         setUploadSuccess('Upload Success!');
@@ -186,31 +192,49 @@ const Profile = () => {
             <Text color="gray.500" marginBottom="10px">
               INFO
             </Text>
-            <Box
-              width="53%"
-              height="150px"
-              borderColor="gray.300"
-              borderWidth="1px"
-              borderRadius="full"
-              marginX="auto">
-              {avatar !== '' ? (
+            {profile.avatar === null ? (
+              <Box
+                width="53%"
+                height="150px"
+                borderColor="gray.300"
+                borderWidth="1px"
+                borderRadius="full"
+                marginX="auto">
+                {avatar !== '' ? (
+                  <Image
+                    source={{uri: avatar.uri}}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                    borderRadius="full"
+                  />
+                ) : (
+                  <Image
+                    source={require('../assets/img/avatar.png')}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                    borderRadius="full"
+                  />
+                )}
+              </Box>
+            ) : (
+              <Box
+                width="53%"
+                height="150px"
+                borderColor="gray.300"
+                borderWidth="1px"
+                borderRadius="full"
+                marginX="auto">
                 <Image
-                  source={{uri: avatar.uri}}
+                  source={{uri: profile?.avatar}}
                   alt=""
                   width="100%"
                   height="100%"
                   borderRadius="full"
                 />
-              ) : (
-                <Image
-                  source={{uri: profile.avatar}}
-                  alt=""
-                  width="100%"
-                  height="100%"
-                  borderRadius="full"
-                />
-              )}
-            </Box>
+              </Box>
+            )}
             {uploadAlert !== '' ? (
               <Text
                 onPress={getImageProfile}

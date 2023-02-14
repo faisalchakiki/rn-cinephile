@@ -1,4 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import PushNotification from 'react-native-push-notification';
 import http from '../../helper/http';
 
 export const transactionAction = createAsyncThunk(
@@ -34,6 +35,11 @@ export const transactionAction = createAsyncThunk(
         email,
       });
       callback();
+      PushNotification.localNotification({
+        channelId: 'global_notif',
+        title: 'Success Booking',
+        message: 'Can you show in History Page, thanks you...',
+      });
       return data[0];
     } catch (err) {
       console.log('object');

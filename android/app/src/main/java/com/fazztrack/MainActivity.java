@@ -1,4 +1,4 @@
-package com.demonative;
+package com.fazztrack;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -11,7 +11,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "demonative";
+    return "Cinephile";
   }
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and

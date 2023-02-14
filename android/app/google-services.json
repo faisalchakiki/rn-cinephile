@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523489726609",
+    "project_id": "cinephile-a1931",
+    "storage_bucket": "cinephile-a1931.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523489726609:android:98607ae48e3c04699f6f30",
+        "android_client_info": {
+          "package_name": "com.fazztrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523489726609-0qfq1vsvhongh36bg0738iuvo97m79pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ1rQ1nhtb49SKsyPhtOzP5JZKH34G204"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523489726609-0qfq1vsvhongh36bg0738iuvo97m79pv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

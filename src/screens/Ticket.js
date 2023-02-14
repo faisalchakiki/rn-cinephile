@@ -16,8 +16,6 @@ export default function Ticket({route}) {
   const {id, status} = route.params;
   const [transaction, setTrans] = React.useState({});
   const [seat, setSeats] = React.useState({});
-  console.log(seat);
-  console.log(transaction);
   React.useEffect(() => {
     getTicket(id);
   }, [id]);
@@ -111,7 +109,7 @@ export default function Ticket({route}) {
                     <Text color="gray.400" fontSize="15px">
                       Seats
                     </Text>
-                    <Text fontSize="17px">{seat?.seatBooking}</Text>
+                    <Text fontSize="17px">{seat?.seatBooking?.join(', ')}</Text>
                   </View>
                 </HStack>
                 <HStack

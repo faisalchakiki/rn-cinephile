@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import NavUser from '../component/NavUser';
 import http from '../helper/http';
 import {chooseMovie} from '../redux/reducers/transaction';
+import moment from 'moment';
 
 export default function Details({route}) {
   const token = useSelector(state => state.auth.token);
@@ -36,11 +37,7 @@ export default function Details({route}) {
   const [price, setPrice] = React.useState('');
   const {id} = route.params;
   const dateSlice = String(date).slice(0, 15);
-  const timeNow = String(date)
-    .slice(16)
-    .slice(0, 8)
-    .replace(':', '')
-    .replace(':', '');
+  const timeNow = moment().format('HHmmSS');
 
   React.useEffect(() => {
     getMovie();

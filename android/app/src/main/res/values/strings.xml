@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">demonative</string>
+    <string name="app_name">Cinephile</string>
+    <string name="default_notification_channel_id">global_notif</string>
 </resources>
