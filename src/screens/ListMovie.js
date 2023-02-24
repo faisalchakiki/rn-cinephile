@@ -231,14 +231,15 @@ export default function ListMovie() {
   const [limit] = React.useState(4);
   const [count, setCountPage] = React.useState(1);
   const [page, setPage] = React.useState(1);
+  const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
-    getMovie(page, limit);
-  }, [page, limit]);
+    getMovie(page, limit, search);
+  }, [page, limit, search]);
 
-  const getMovie = async (pages, limits) => {
+  const getMovie = async (pages, limits, searchs) => {
     const {data: result} = await http().get(
-      `/movies?limit=${limits}&page=${pages}`,
+      `/movies?limit=${limits}&page=${pages}&search=${searchs}`,
     );
     setMovie(result.data);
     setCountPage(result.pageInfo.totalPage);
@@ -266,8 +267,6 @@ export default function ListMovie() {
             backgroundColor="white">
             <Select.Item label="A - Z" value="ASC" />
             <Select.Item label="Z - A" value="DESC" />
-            <Select.Item label="Now Showing" value="nowShowing" />
-            <Select.Item label="Upcoming" value="upComing" />
           </Select>
           <TextInput
             style={[
@@ -277,6 +276,7 @@ export default function ListMovie() {
               {width: '70%'},
             ]}
             name="search-movie"
+            onChangeText={value => setSearch(value)}
             placeholder="Search Movie Name ..."
             placeholderTextColor="gray"
           />

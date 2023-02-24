@@ -11,11 +11,11 @@ const authConfig = {
   blacklist: ['message'],
 };
 
-const transactionConfig = {
-  key: 'transaction',
-  storage: AsyncStorage,
-  blacklist: ['message'],
-};
+// const transactionConfig = {
+//   key: 'transaction',
+//   storage: AsyncStorage,
+//   blacklist: ['message'],
+// };
 
 const reducer = combineReducers({
   auth: persistReducer(authConfig, auth),

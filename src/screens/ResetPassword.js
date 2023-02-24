@@ -79,19 +79,25 @@ const ResetPassword = () => {
   const [alertSuccess, setAlertSuccess] = React.useState('');
   const getAccount = async value => {
     const {password, confirmPassword, code} = value;
-    console.log(value);
     if (value.password === value.confirmPassword) {
       try {
-        await http().post('auth/resetPassword', {
-          password,
-          confirmPassword,
-          code,
-        });
-        setAlertSuccess('Success Get Account');
-        return setTimeout(() => {
-          setAlertSuccess('');
-          // navigation.navigate('SignIn');
-        }, 5000);
+        if (value.password.length >= 6) {
+          await http().post('auth/resetPassword', {
+            password,
+            confirmPassword,
+            code,
+          });
+          setAlertSuccess('Success Get Account');
+          return setTimeout(() => {
+            setAlertSuccess('');
+            navigation.navigate('SignIn');
+          }, 4000);
+        } else {
+          setAlert('Password min 6 character');
+          return setTimeout(() => {
+            setAlert('');
+          }, 5000);
+        }
       } catch (err) {
         setAlert('Code is false');
         return setTimeout(() => {
@@ -114,7 +120,8 @@ const ResetPassword = () => {
         <View>
           <Text style={styles.headerAuth}>Get back your account</Text>
           <Text style={[styles.gray, styles.mb20]}>
-            Fill your complete password
+            Fill your complete password, and your code can be retrieved in
+            gmail.
           </Text>
         </View>
         {alert !== '' && (

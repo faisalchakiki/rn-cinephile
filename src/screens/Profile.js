@@ -7,6 +7,7 @@ import {
   Icon,
   Image,
   Input,
+  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -52,7 +53,9 @@ const Profile = () => {
   const [uploadAlert, setUploadAlert] = React.useState('');
   const [uploadSuccess, setUploadSuccess] = React.useState('');
   const [refresh, setRefresh] = React.useState(1);
-
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   const logoutAction = () => {
     dispatch(logout());
   };
@@ -107,9 +110,15 @@ const Profile = () => {
     }
   };
 
-  const getImageProfile = async () => {
-    const data = await launchImageLibrary();
-    setAvatar(data.assets[0]);
+  const getImageProfile = async value => {
+    if (value === 'galery') {
+      const dataImgGalery = await launchImageLibrary();
+      setAvatar(dataImgGalery.assets[0]);
+    } else {
+      const dataImgCamera = await launchCamera();
+      setAvatar(dataImgCamera.assets[0]);
+    }
+    return setModalVisible(false);
   };
 
   const uploadImage = async () => {
@@ -123,10 +132,13 @@ const Profile = () => {
       setUploadAlert('File type is not supported!');
       return false;
     }
-    console.log(avatar);
     try {
       const formData = new FormData();
-      formData.append('picture', avatar);
+      formData.append('picture', {
+        uri: avatar.uri,
+        type: avatar.type,
+        name: 'picture',
+      });
       const {data: result} = await http(token).patch(
         '/profile/upload',
         formData,
@@ -146,6 +158,7 @@ const Profile = () => {
         setUploadSuccess('');
       }, 3000);
     } catch (err) {
+      console.log('error upload');
       console.log(err);
     }
   };
@@ -226,44 +239,82 @@ const Profile = () => {
                 borderWidth="1px"
                 borderRadius="full"
                 marginX="auto">
-                <Image
-                  source={{uri: profile?.avatar}}
-                  alt=""
-                  width="100%"
-                  height="100%"
-                  borderRadius="full"
-                />
+                {avatar !== '' ? (
+                  <Image
+                    source={{uri: avatar.uri}}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                    borderRadius="full"
+                  />
+                ) : (
+                  <Image
+                    source={{uri: profile?.avatar}}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                    borderRadius="full"
+                  />
+                )}
               </Box>
             )}
             {uploadAlert !== '' ? (
-              <Text
-                onPress={getImageProfile}
-                textAlign="center"
-                fontSize={18}
-                color="red.600">
+              <Text textAlign="center" fontSize={18} color="red.600">
                 {uploadAlert}
               </Text>
             ) : (
               <></>
             )}
             {uploadSuccess !== '' ? (
-              <Text
-                onPress={getImageProfile}
-                textAlign="center"
-                fontSize={18}
-                color="green.600">
+              <Text textAlign="center" fontSize={18} color="green.600">
                 {uploadSuccess}
               </Text>
             ) : (
               <></>
             )}
-            <Text
-              onPress={getImageProfile}
-              textAlign="center"
-              color="orange.600"
-              textDecorationLine="underline">
-              upload ?
-            </Text>
+            <Modal
+              isOpen={modalVisible}
+              onClose={() => setModalVisible(false)}
+              initialFocusRef={initialRef}
+              finalFocusRef={finalRef}>
+              <Modal.Content>
+                <Modal.CloseButton />
+                <Modal.Header>Get Photo</Modal.Header>
+                <Modal.Body>
+                  <Button.Group
+                    justifyContent="space-evenly"
+                    alignItems="center">
+                    <Button
+                      size="md"
+                      colorScheme="blueGray"
+                      onPress={() => {
+                        getImageProfile('camera');
+                      }}>
+                      Camera
+                    </Button>
+                    <Button
+                      size="md"
+                      colorScheme="orange"
+                      onPress={() => {
+                        getImageProfile('galery');
+                      }}>
+                      Galery
+                    </Button>
+                  </Button.Group>
+                </Modal.Body>
+              </Modal.Content>
+            </Modal>
+            <HStack space="4" justifyContent="center" alignItems="center">
+              <Text
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+                textAlign="center"
+                color="orange.600"
+                textDecorationLine="underline">
+                upload ?
+              </Text>
+            </HStack>
             {avatar && (
               <Pressable onPress={uploadImage}>
                 <Box

@@ -81,11 +81,13 @@ const styles = StyleSheet.create({
 });
 
 const validationSchema = Yup.object({
-  password: Yup.string().required('Required').min(6),
-  email: Yup.string().email('Invalid email address').required('Required'),
   firstName: Yup.string().required('Required'),
-  lastName: Yup.string(),
-  phoneNumber: Yup.string().phone('ID').required('Required'),
+  lastName: Yup.string().required('Required'),
+  phoneNumber: Yup.string()
+    .phone('ID', true, 'Phone number is invalid')
+    .required('Required'),
+  email: Yup.string().email().required('Required'),
+  password: Yup.string().required('Required').min(6),
 });
 
 const Register = () => {

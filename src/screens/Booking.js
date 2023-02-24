@@ -28,26 +28,21 @@ export default function Booking() {
   const onChangeSeat = seatNum => {
     if (selected.includes(seatNum)) {
       setSelected(selected.filter(value => value !== seatNum));
-      dispatch(chooseSeats(selected));
     } else {
       setSelected([...selected, seatNum]);
-      dispatch(chooseSeats(selected));
     }
   };
   React.useEffect(() => {
     getDetails();
-  }, [setSelected]);
+  }, []);
+
   const getDetails = async () => {
     const {data: result} = await http().get(`/movies/${infoBooking.idMovie}`);
-    console.log(setDetails(result.data[0]));
     return setDetails(result.data[0]);
   };
-  const goToPayment = () => {
-    if (infoBooking.seatSelected !== null) {
-      navigation.navigate('Payment');
-    } else {
-      alert('selected seats');
-    }
+  const goToPayment = async () => {
+    await dispatch(chooseSeats(selected));
+    navigation.navigate('Payment');
   };
   return (
     <NativeBaseProvider>
@@ -171,11 +166,7 @@ export default function Booking() {
                 alignItems="center"
                 marginBottom="10px">
                 <Text color="gray.500">Seat Choosed</Text>
-                <Text>
-                  {infoBooking.seatSelected
-                    ? infoBooking?.seatSelected.join(',')
-                    : '-'}
-                </Text>
+                <Text>(selected seat)</Text>
               </HStack>
               <HStack
                 justifyContent="space-between"
@@ -191,9 +182,15 @@ export default function Booking() {
                 </Text>
               </HStack>
             </Box>
-            <Button backgroundColor="orange.400" onPress={() => goToPayment()}>
-              Chekout Now
-            </Button>
+            {selected.length > 0 ? (
+              <Button
+                backgroundColor="orange.400"
+                onPress={() => goToPayment()}>
+                Chekout Now
+              </Button>
+            ) : (
+              <Button backgroundColor="gray.400">Choose Seat Now</Button>
+            )}
           </View>
           <Footer />
         </View>

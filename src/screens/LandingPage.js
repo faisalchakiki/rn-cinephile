@@ -228,7 +228,7 @@ export default function LandingPage() {
       const {data: result} = await http().get('/movies/upcoming');
       setUpComing(result);
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
     }
   };
   const nowShowing = async () => {
@@ -236,7 +236,7 @@ export default function LandingPage() {
       const {data: result} = await http().get('/movies/nowShowing');
       setNowShowing(result);
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
     }
   };
   return (

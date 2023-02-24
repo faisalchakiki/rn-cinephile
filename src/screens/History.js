@@ -21,7 +21,6 @@ export default function History() {
   const navigation = useNavigation();
   const [data, setDataHistory] = React.useState([]);
   const token = useSelector(state => state.auth.token);
-  console.log(token);
   React.useEffect(() => {
     getDataOrder(token);
   }, [token]);
@@ -31,8 +30,6 @@ export default function History() {
   };
   let dateNow = moment().format('YYYYMMDD');
   let timeNow = moment().format('HHmmSS');
-
-  console.log(dateNow);
   return (
     <NativeBaseProvider>
       <ScrollView>
