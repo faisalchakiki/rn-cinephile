@@ -232,14 +232,15 @@ export default function ListMovie() {
   const [count, setCountPage] = React.useState(1);
   const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState('');
+  const [sort, setSort] = React.useState('ASC');
 
   React.useEffect(() => {
-    getMovie(page, limit, search);
-  }, [page, limit, search]);
+    getMovie(page, limit, search, sort);
+  }, [page, limit, search, sort]);
 
-  const getMovie = async (pages, limits, searchs) => {
+  const getMovie = async (pages, limits, searchs, sorts) => {
     const {data: result} = await http().get(
-      `/movies?limit=${limits}&page=${pages}&search=${searchs}`,
+      `/movies?limit=${limits}&page=${pages}&search=${searchs}&sort=${sorts}`,
     );
     setMovie(result.data);
     setCountPage(result.pageInfo.totalPage);
@@ -264,7 +265,8 @@ export default function ListMovie() {
             mt={2}
             ml="5%"
             width="74%"
-            backgroundColor="white">
+            backgroundColor="white"
+            onValueChange={e => setSort(e)}>
             <Select.Item label="A - Z" value="ASC" />
             <Select.Item label="Z - A" value="DESC" />
           </Select>
@@ -297,7 +299,7 @@ export default function ListMovie() {
                 <Image
                   alt=""
                   source={{
-                    uri: `https://www.themoviedb.org/t/p/w220_and_h330_face${item.poster}`,
+                    uri: `${item.poster}`,
                   }}
                   style={[{width: '100%'}, {height: 200}]}
                 />

@@ -69,6 +69,7 @@ export default function History() {
               </HStack>
             </View>
             {data?.map(item => {
+              console.log(item);
               const dateTicket = item.dateBooking
                 .replace('-', '')
                 .replace('-', '');
@@ -90,8 +91,11 @@ export default function History() {
                   marginBottom="30px">
                   <Image
                     alt=""
-                    source={require('../assets/logo/cineone.png')}
+                    source={{uri: item.logo}}
                     marginBottom="10px"
+                    width="50%"
+                    height="10"
+                    resizeMode="contain"
                   />
                   <Text color="gray.500">{item.dateBooking}</Text>
                   <Text fontSize="19px">{item.title}</Text>

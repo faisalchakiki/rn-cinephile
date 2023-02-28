@@ -43,7 +43,7 @@ export default function Details({route}) {
     getMovie();
     getSchedule();
     getCity();
-  }, []);
+  }, [token]);
 
   const getMovie = async () => {
     const {data: result} = await http().get(`/movies/${id}`);
@@ -80,7 +80,7 @@ export default function Details({route}) {
       );
       navigation.navigate('Booking');
     } else {
-      alert('first select the available time');
+      // alert('first select the available time');
     }
   };
   return (
@@ -101,7 +101,7 @@ export default function Details({route}) {
               <Image
                 alt="error image"
                 source={{
-                  uri: `https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster}`,
+                  uri: movie.poster,
                 }}
                 width="100%"
                 height="100%"
@@ -194,76 +194,96 @@ export default function Details({route}) {
                 ))}
               </Select>
             </HStack>
-            {schedule?.map(data => (
-              <Box
-                key={data.id}
-                backgroundColor="white"
-                padding="5%"
-                rounded="8px"
-                marginBottom="20px">
-                <Image
-                  source={require('../assets/logo/ebu.png')}
-                  alt="logo cinema"
-                  marginX="auto"
-                  marginBottom="20px"
-                />
-                <Text color="gray.500" textAlign="center">
-                  {data.address}. {data.city}
-                </Text>
-                <View
-                  height="1px"
-                  widht="100%"
-                  backgroundColor="gray.400"
-                  marginY="10px"
-                />
-                <FlatList
-                  numColumns={4}
-                  data={data.times}
-                  renderItem={({item}) => {
-                    const timeSplit = item.replace(':', '').replace(':', '');
-                    if (timeNow < timeSplit) {
-                      return (
-                        <Pressable
-                          key={item}
-                          onPress={() => {
-                            setSelectedTime(item);
-                            setSelectedCinema(data.idCinema);
-                            setImageCinema(data.logo);
-                            setNameCinema(data.name);
-                            setPrice(data.price);
-                          }}
-                          w="25%"
-                          mx={0.2}
-                          mb={2}
-                          backgroundColor={
-                            selectedTime === item ? 'green.200' : 'transparent'
-                          }
-                          borderRadius={20}>
-                          <Text textAlign="center" color="black">
-                            {item}
-                          </Text>
-                        </Pressable>
-                      );
-                    }
-                  }}
-                />
-                {token ? (
-                  <Button
-                    marginTop="20px"
-                    backgroundColor="orange.400"
-                    onPress={() => bookingActions()}>
-                    Book Now
-                  </Button>
-                ) : (
-                  <Button
-                    marginTop="20px"
-                    backgroundColor="orange.400"
-                    onPress={() => navigation.navigate('Register')}>
-                    Book Now
-                  </Button>
-                )}
-              </Box>
-            ))}
+            {schedule?.map(data => {
+              // console.log(data);
+              return (
+                <Box
+                  key={data.id}
+                  backgroundColor="white"
+                  padding="5%"
+                  rounded="8px"
+                  marginBottom="20px">
+                  <Image
+                    source={{uri: data.logo}}
+                    alt="logo cinema"
+                    width="60%"
+                    height="10"
+                    marginX="auto"
+                    resizeMode="contain"
+                    marginBottom="10px"
+                  />
+                  <Text color="gray.500" textAlign="center">
+                    {data.address}. {data.city}
+                  </Text>
+                  <View
+                    height="1px"
+                    width="100%"
+                    backgroundColor="gray.400"
+                    marginY="10px"
+                  />
+                  <FlatList
+                    numColumns={4}
+                    data={data.times}
+                    renderItem={({item}) => {
+                      const timeSplit = item.replace(':', '').replace(':', '');
+                      if (timeNow < timeSplit) {
+                        return (
+                          <Pressable
+                            key={item}
+                            onPress={() => {
+                              setSelectedTime(item);
+                              setSelectedCinema(data.idCinema);
+                              setImageCinema(data.logo);
+                              setNameCinema(data.name);
+                              setPrice(data.price);
+                            }}
+                            w="25%"
+                            mx={0.2}
+                            mb={2}
+                            backgroundColor={
+                              selectedTime === item
+                                ? 'green.200'
+                                : 'transparent'
+                            }
+                            borderRadius={20}>
+                            <Text textAlign="center" color="black">
+                              {item}
+                            </Text>
+                          </Pressable>
+                        );
+                      }
+                    }}
+                  />
+                  {token ? (
+                    <Button
+                      marginTop="20px"
+                      backgroundColor={
+                        data.times.includes(selectedTime)
+                          ? 'orange.400'
+                          : 'gray.400'
+                      }
+                      onPress={() => {
+                        if (data.times.includes(selectedTime)) {
+                          return bookingActions();
+                        } else {
+                          return false;
+                        }
+                      }}>
+                      {data.times.includes(selectedTime)
+                        ? 'Book Now'
+                        : 'Selected Time'}
+                    </Button>
+                  ) : (
+                    <Button
+                      marginTop="20px"
+                      backgroundColor="orange.400"
+                      onPress={() => navigation.navigate('Register')}>
+                      Book Now
+                    </Button>
+                  )}
+                </Box>
+              );
+            })}
             <Text fontSize="18px" color="orange.400" textAlign="center">
               view more
             </Text>

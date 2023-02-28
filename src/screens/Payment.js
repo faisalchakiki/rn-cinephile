@@ -145,12 +145,17 @@ export default function Payment() {
                         alignItems="center"
                         justifyContent="center"
                         height="50px"
+                        padding={1}
+                        marginBottom={1}
                         marginX={1}>
-                        {/* <Image
-                          source={require('../assets/logo/dana.png')}
+                        <Image
+                          source={{uri: item.logo}}
                           alt=""
-                        /> */}
-                        <Text>{item.name}</Text>
+                          width="100%"
+                          height="10"
+                          resizeMode="contain"
+                        />
+                        {/* <Text>{item.name}</Text> */}
                       </Pressable>
                     );
                   }}

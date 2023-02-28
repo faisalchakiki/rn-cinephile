@@ -35,7 +35,7 @@ export default function Booking() {
   React.useEffect(() => {
     getDetails();
   }, []);
-
+  console.log(infoBooking);
   const getDetails = async () => {
     const {data: result} = await http().get(`/movies/${infoBooking.idMovie}`);
     return setDetails(result.data[0]);
@@ -133,9 +133,13 @@ export default function Booking() {
               borderRadius="8px"
               marginBottom="30px">
               <Image
-                source={require('../assets/logo/ebu.png')}
-                mx="auto"
-                alt="#cinema booking"
+                source={{uri: infoBooking.logoCinema}}
+                alt="logo cinema"
+                width="60%"
+                height="10"
+                marginX="auto"
+                resizeMode="contain"
+                marginBottom="10px"
               />
               <Text textAlign="center" fontSize="24px">
                 {infoBooking.nameCinema}

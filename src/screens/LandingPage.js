@@ -305,7 +305,7 @@ export default function LandingPage() {
                         alt=""
                         style={styles.imageBox}
                         source={{
-                          uri: `https://www.themoviedb.org/t/p/w220_and_h330_face${data.poster}`,
+                          uri: `${data.poster}`,
                         }}
                         width="100%"
                         height="100%"
@@ -356,7 +356,7 @@ export default function LandingPage() {
                       alt=""
                       style={styles.imageBox}
                       source={{
-                        uri: `https://www.themoviedb.org/t/p/w220_and_h330_face${item.poster}`,
+                        uri: `${item.poster}`,
                       }}
                       width="100%"
                       height="100%"
